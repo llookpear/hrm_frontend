@@ -1,46 +1,22 @@
-
-
-
-
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id "dev.flutter.flutter-gradle-plugin"
+    id "kotlin-android"
 }
 
 android {
     compileSdkVersion 34
-    namespace "com.example.hrm_project"
-    compileSdkVersion project.hasProperty('flutter.compileSdkVersion') ? project.property('flutter.compileSdkVersion') : 33
-    ndkVersion project.hasProperty('flutter.ndkVersion') ? project.property('flutter.ndkVersion') : "23.1.7779620"
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
     defaultConfig {
+        applicationId "com.example.myapp"
+        minSdkVersion 21
         targetSdkVersion 34
-        applicationId "com.example.hrm_project"
-        minSdkVersion project.hasProperty('flutter.minSdkVersion') ? project.property('flutter.minSdkVersion') : 21
-        targetSdkVersion project.hasProperty('flutter.targetSdkVersion') ? project.property('flutter.targetSdkVersion') : 33
-        versionCode project.hasProperty('flutter.versionCode') ? project.property('flutter.versionCode').toInteger() : 1
-        versionName project.hasProperty('flutter.versionName') ? project.property('flutter.versionName') : "1.0.0"
-    }
-
-    buildTypes {
-        release {
-            signingConfig signingConfigs.debug
-        }
+        versionCode 1
+        versionName "1.0"
     }
 }
+
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
