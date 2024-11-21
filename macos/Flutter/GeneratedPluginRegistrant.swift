@@ -18,7 +18,7 @@ import path_provider_foundation
 import printing
 import shared_preferences_foundation
 import sign_in_with_apple
-import sqflite
+import sqflite_darwin
 import syncfusion_pdfviewer_macos
 import url_launcher_macos
 
