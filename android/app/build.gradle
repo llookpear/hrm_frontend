@@ -1,96 +1,17 @@
-//
-//
-//plugins {
-//    id "com.android.application"
-//    id "kotlin-android"
-//    id "dev.flutter.flutter-gradle-plugin"
-//}
-//
-//def localProperties = new Properties()
-//def localPropertiesFile = rootProject.file('local.properties')
-//if (localPropertiesFile.exists()) {
-//    localPropertiesFile.withReader('UTF-8') { reader ->
-//        localProperties.load(reader)
-//    }
-//}
-//
-//def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-//if (flutterVersionCode == null) {
-//    flutterVersionCode = '1'
-//}
-//
-//def flutterVersionName = localProperties.getProperty('flutter.versionName')
-//if (flutterVersionName == null) {
-//    flutterVersionName = '1.0'
-//}
-//
-//android {
-//    namespace "com.example.hrm_project"
-//    compileSdk flutter.compileSdkVersion
-//    ndkVersion flutter.ndkVersion
-//
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
-//
-//    kotlinOptions {
-//        jvmTarget = '1.8'
-//    }
-//
-//    sourceSets {
-//        main.java.srcDirs += 'src/main/kotlin'
-//    }
-//
-//    defaultConfig {
-//        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-//        applicationId "com.example.hrm_project"
-//        // You can update the following values to match your application needs.
-//        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-//        minSdkVersion flutter.minSdkVersion
-//        targetSdkVersion flutter.targetSdkVersion
-//        versionCode flutterVersionCode.toInteger()
-//        versionName flutterVersionName
-//    }
-//
-//    buildTypes {
-//        release {
-//            // TODO: Add your own signing config for the release build.
-//            // Signing with the debug keys for now, so `flutter run --release` works.
-//            signingConfig signingConfigs.debug
-//        }
-//    }
-//}
-//
-//flutter {
-//    source '../..'
-//}
-//
-//dependencies {
-//    implementation 'com.estimote:estimote-sdk:1.0.0'
-//}
-//
+
+
+
 
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode') ?: '1'
-def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '1.0'
-
 android {
+    compileSdkVersion 34
     namespace "com.example.hrm_project"
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    compileSdkVersion project.hasProperty('flutter.compileSdkVersion') ? project.property('flutter.compileSdkVersion') : 33
+    ndkVersion project.hasProperty('flutter.ndkVersion') ? project.property('flutter.ndkVersion') : "23.1.7779620"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -106,11 +27,12 @@ android {
     }
 
     defaultConfig {
+        targetSdkVersion 34
         applicationId "com.example.hrm_project"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        minSdkVersion project.hasProperty('flutter.minSdkVersion') ? project.property('flutter.minSdkVersion') : 21
+        targetSdkVersion project.hasProperty('flutter.targetSdkVersion') ? project.property('flutter.targetSdkVersion') : 33
+        versionCode project.hasProperty('flutter.versionCode') ? project.property('flutter.versionCode').toInteger() : 1
+        versionName project.hasProperty('flutter.versionName') ? project.property('flutter.versionName') : "1.0.0"
     }
 
     buildTypes {
@@ -120,14 +42,10 @@ android {
     }
 }
 
-flutter {
-    source '../..'
-}
-
 dependencies {
-    implementation 'com.estimote:estimote-sdk:1.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.15.1'
+    implementation 'androidx.core:core-ktx:1.15.0'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
 }
+
