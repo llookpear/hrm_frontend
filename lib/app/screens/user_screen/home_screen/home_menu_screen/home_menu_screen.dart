@@ -34,7 +34,7 @@ class HomeMenuScreenWidget extends HookConsumerWidget {
     const String checkOut = "Check out";
     const String leaving = "Leaving";
     const String overtime = "Overtime";
-///test
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColor.backgroundColor,
