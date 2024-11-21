@@ -1,7 +1,7 @@
 workflows:
   flutter:
     name: Flutter Workflow
-    instance_type: macos-xcode-11
+    instance_type: mac_mini_m1
     scripts:
       - echo "Building Flutter project"
       - flutter pub get
