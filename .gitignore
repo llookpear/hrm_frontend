@@ -44,3 +44,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+assets/calendar/my-calendar-428810-d69de1e06e59.json
