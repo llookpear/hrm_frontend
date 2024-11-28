@@ -3,8 +3,8 @@ class APIConstance {
     String? url;
     return url ?? _apiBaseUrlToken;
   }
-  // static String baseURL = "http://172.10.1.180:8080";
-  static String baseURL = "https://hrm.up.railway.app";
+  static String baseURL = "http://localhost:3000";
+  // static String baseURL = "https://hrm.up.railway.app";
   final String _apiBaseUrlToken = "$baseURL/";
   final String apiLogin = "login";
   final String apiUserDetail = "user-detail";

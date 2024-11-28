@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
-import 'package:camera/camera.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
@@ -13,6 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hrm_project/app/widgets/class/convert_datetime_number.dart';
 import 'package:hrm_project/app/widgets/class/icons.dart';
 import 'package:hrm_project/app/widgets/fonts_style_widget.dart';
+import 'package:intl/intl.dart';
 import '../app/widgets/elevated_button_widget.dart';
 import '../app/widgets/info_card.dart';
 import '../app/widgets/text_form_field_widget.dart';
@@ -72,11 +70,9 @@ class AppProvider {
     var u = Hive.box<StoreSystemData>(systemBox).getAt(0)!;
     if (u.accessToken != null && userPermission == UserPermission.user.name) {
       _ref.read(routerProvider).go(AppRouter().homeScreen);
-    } else if (u.accessToken != null &&
-        userPermission == UserPermission.admin.name) {
+    } else if (u.accessToken != null && userPermission == UserPermission.admin.name) {
       _ref.read(routerProvider).go(AppRouter().addminHomeMenuScreenWidget);
     } else {
-      ///เพิ่ม alert dialog
       _ref.watch(routerProvider).go(AppRouter().loginScreen);
     }
   }
@@ -162,7 +158,7 @@ class AppProvider {
                       weight: FontWeight.w500),
                   const SizedBox(height: 8),
                   InfoCardCanCheck(
-                    data: typeOfCheck.name.toLowerCase(),
+                    data: typeOfCheck.name.toLowerCase().toString(),
                   ),
                   // const Row(
                   //   crossAxisAlignment: CrossAxisAlignment.end,
@@ -309,7 +305,7 @@ class AppProvider {
                   ),
                   const SizedBox(height: 8),
                   InfoCardWarningCheck(
-                    data: typeOfCheck.name.toString(),
+                    data: typeOfCheck.name.toLowerCase().toString(),
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -367,12 +363,10 @@ class AppProvider {
     Timer? scanTimer;
     await flutterBeacon.initializeScanning;
     final region = Region(
-      /// fix branch
       identifier: _branch[0].identifier,
       proximityUUID: _branch[0].uuid,
     );
-    streamRanging =
-        flutterBeacon.ranging([region]).listen((RangingResult result) async {
+    streamRanging = flutterBeacon.ranging([region]).listen((RangingResult result) async {
       // _beacons.clear();
       beacons.addAll(result.beacons);
       for (var beacon in result.beacons) {
@@ -410,7 +404,7 @@ class AppProvider {
                         weight: FontWeight.w500),
                     const SizedBox(height: 8),
                     InfoCardCanCheck(
-                      data: typeOfCheck.name.toLowerCase(),
+                      data: typeOfCheck.name.toLowerCase().toString(),
                     ),
                   ],
                 ),

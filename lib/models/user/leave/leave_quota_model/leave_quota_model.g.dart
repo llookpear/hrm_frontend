@@ -9,7 +9,7 @@ part of 'leave_quota_model.dart';
 _$LeaveQuotaModelImpl _$$LeaveQuotaModelImplFromJson(
         Map<String, dynamic> json) =>
     _$LeaveQuotaModelImpl(
-      quota: (json['quota'] as num).toInt(),
+      quota: json['quota'] as String,
     );
 
 Map<String, dynamic> _$$LeaveQuotaModelImplToJson(

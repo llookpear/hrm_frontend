@@ -69,10 +69,9 @@ class ContentRepository extends BaseRepository {
         apiLeaveTotal,
         data: {"jwtToken": jwtToken},
       );
-      return APIResponse.completed(LeaveTotalModel.fromJson(res.data),
-          res: res);
+      return APIResponse.completed(LeaveTotalModel.fromJson(res.data), res: res);
     } catch (e) {
-      return APIResponse.error("$e");
+      return APIResponse.error("leaveTotal $e");
     }
   }
 

@@ -167,22 +167,21 @@ class HomeMenuScreenWidget extends HookConsumerWidget {
                           return asyncUserLeaveQuota.when(
                             data: (leaveQuota) {
                               var value =
-                                  leaveTotal.total / leaveQuota.quota * 100;
+                                  int.parse(leaveTotal.total) /  int.parse(leaveQuota.quota) * 100;
                               return ChartWidget(
                                   title: leaving,
                                   primaryColor: AppColor.primaryPinkColor,
                                   secondColor: AppColor.secondaryPinkColor,
-                                  number:
-                                      '${leaveTotal.total} / ${leaveQuota.quota}',
+                                  number: '${leaveTotal.total} / ${leaveQuota.quota}',
                                   pieValue1: value.toInt(),
                                   pieValue2: (100 - value).toInt());
                             },
                             loading: () => const SizedBox.shrink(),
-                            error: (error, stack) => Text('Error: $error'),
+                            error: (error, stack) => Text('Error asyncUserLeaveQuota: $error'),
                           );
                         },
                         loading: () => const SizedBox.shrink(),
-                        error: (error, stack) => Text('Error: $error'),
+                        error: (error, stack) => Text('Error asyncUserLeaveToTal: $error'),
                       ),
                       asyncUserOvertimeQuota.when(
                         data: (overtimeTotal) {

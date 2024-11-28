@@ -85,18 +85,17 @@ class AddminRepository extends BaseRepository {
 
   Future<APIResponse> approveShiftWork({
     required String jwtToken,
-    required String shiftChangeID,
+    required String requestID,
     required String statusID,
     required String currentRosterID,
     required String desiredRosterID,
   }) async {
     try {
-      ///put
       final res = await dio.post(
         apiApproveShiftWork,
         data: {
           "jwtToken": jwtToken,
-          "shiftChangeID": shiftChangeID,
+          "request_id": requestID,
           "status_id": statusID,
           "current_roster_id": currentRosterID,
           "desired_roster_id": desiredRosterID,

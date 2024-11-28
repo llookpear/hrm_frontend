@@ -13,7 +13,6 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
 
 class UserRepository extends BaseRepository {
 
-
   Future<APIResponse<LoginModel>> login({
     required String email,
     required String password,

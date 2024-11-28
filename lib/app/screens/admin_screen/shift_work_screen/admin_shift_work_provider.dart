@@ -41,7 +41,7 @@ class AllShiftWorkProvider {
     var res = await _adddminRepository.approveShiftWork(
       jwtToken: jwtToken.toString(),
       statusID: statusID,
-      shiftChangeID: shiftChangeID,
+      requestID: shiftChangeID,
       currentRosterID: currentRosterID,
       desiredRosterID: desiredRosterID,
     );

@@ -9,7 +9,7 @@ part of 'leave_total_model.dart';
 _$LeaveTotalModelImpl _$$LeaveTotalModelImplFromJson(
         Map<String, dynamic> json) =>
     _$LeaveTotalModelImpl(
-      total: (json['total'] as num?)?.toInt() ?? 0,
+      total: json['total'] as String? ?? "0",
     );
 
 Map<String, dynamic> _$$LeaveTotalModelImplToJson(

@@ -18,10 +18,8 @@ import 'calendar_provider.dart';
 
 Future<AutoRefreshingAuthClient> getClient() async {
   /// โหลดมาจาก google api
-  final jsonContent = await rootBundle
-      .loadString('assets/calendar/my-calendar-428810-d69de1e06e59.json');
-  final credentials =
-      ServiceAccountCredentials.fromJson(jsonDecode(jsonContent));
+  final jsonContent = await rootBundle.loadString('assets/calendar/my-calendar-428810-d69de1e06e59.json');
+  final credentials = ServiceAccountCredentials.fromJson(jsonDecode(jsonContent));
   final scopes = [calendar.CalendarApi.calendarReadonlyScope];
   return await clientViaServiceAccount(credentials, scopes);
 }

@@ -19,7 +19,7 @@ part   'leave_quota_model.g.dart';
 @freezed
 class LeaveQuotaModel with _$LeaveQuotaModel {
   const factory LeaveQuotaModel({
-    required int quota,
+    required String quota,
   }) = _LeaveQuotaModel;
 
   factory LeaveQuotaModel.fromJson(Map<String, Object?> json) =>

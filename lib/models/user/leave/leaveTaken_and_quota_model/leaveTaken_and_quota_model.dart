@@ -24,7 +24,7 @@ class LeaveTakenAndQuotaModel with _$LeaveTakenAndQuotaModel {
   const factory LeaveTakenAndQuotaModel({
     required int quota,
     required int type,
-    @Default(0) @JsonKey(name: 'leave_taken') int leaveTaken,
+    @Default("0") @JsonKey(name: 'leave_taken') String leaveTaken,
   }) = _LeaveTakenAndQuotaModel;
 
   factory LeaveTakenAndQuotaModel.fromJson(Map<String, Object?> json) =>

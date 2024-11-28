@@ -11,7 +11,7 @@ _$LeaveTakenAndQuotaModelImpl _$$LeaveTakenAndQuotaModelImplFromJson(
     _$LeaveTakenAndQuotaModelImpl(
       quota: (json['quota'] as num).toInt(),
       type: (json['type'] as num).toInt(),
-      leaveTaken: (json['leave_taken'] as num?)?.toInt() ?? 0,
+      leaveTaken: json['leave_taken'] as String? ?? "0",
     );
 
 Map<String, dynamic> _$$LeaveTakenAndQuotaModelImplToJson(

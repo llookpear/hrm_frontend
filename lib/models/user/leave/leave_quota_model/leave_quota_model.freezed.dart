@@ -20,7 +20,7 @@ LeaveQuotaModel _$LeaveQuotaModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LeaveQuotaModel {
-  int get quota => throw _privateConstructorUsedError;
+  String get quota => throw _privateConstructorUsedError;
 
   /// Serializes this LeaveQuotaModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $LeaveQuotaModelCopyWith<$Res> {
           LeaveQuotaModel value, $Res Function(LeaveQuotaModel) then) =
       _$LeaveQuotaModelCopyWithImpl<$Res, LeaveQuotaModel>;
   @useResult
-  $Res call({int quota});
+  $Res call({String quota});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$LeaveQuotaModelCopyWithImpl<$Res, $Val extends LeaveQuotaModel>
       quota: null == quota
           ? _value.quota
           : quota // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ) as $Val);
   }
 }
@@ -75,7 +75,7 @@ abstract class _$$LeaveQuotaModelImplCopyWith<$Res>
       __$$LeaveQuotaModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int quota});
+  $Res call({String quota});
 }
 
 /// @nodoc
@@ -97,7 +97,7 @@ class __$$LeaveQuotaModelImplCopyWithImpl<$Res>
       quota: null == quota
           ? _value.quota
           : quota // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -111,7 +111,7 @@ class _$LeaveQuotaModelImpl implements _LeaveQuotaModel {
       _$$LeaveQuotaModelImplFromJson(json);
 
   @override
-  final int quota;
+  final String quota;
 
   @override
   String toString() {
@@ -148,14 +148,14 @@ class _$LeaveQuotaModelImpl implements _LeaveQuotaModel {
 }
 
 abstract class _LeaveQuotaModel implements LeaveQuotaModel {
-  const factory _LeaveQuotaModel({required final int quota}) =
+  const factory _LeaveQuotaModel({required final String quota}) =
       _$LeaveQuotaModelImpl;
 
   factory _LeaveQuotaModel.fromJson(Map<String, dynamic> json) =
       _$LeaveQuotaModelImpl.fromJson;
 
   @override
-  int get quota;
+  String get quota;
 
   /// Create a copy of LeaveQuotaModel
   /// with the given fields replaced by the non-null parameter values.

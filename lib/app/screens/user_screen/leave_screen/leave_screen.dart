@@ -58,7 +58,7 @@ class LeaveScreenWidget extends HookConsumerWidget {
                               secondColor:
                                   getColorForIndex(firstIndex, secondary: true),
                               number:
-                                  '${numberFormat.format(data[firstIndex].leaveTaken)} / ${numberFormat.format(data[firstIndex].quota)}',
+                                  '${numberFormat.format(int.parse(data[firstIndex].leaveTaken))} / ${numberFormat.format(data[firstIndex].quota)}',
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -70,7 +70,7 @@ class LeaveScreenWidget extends HookConsumerWidget {
                                 secondColor: getColorForIndex(secondIndex,
                                     secondary: true),
                                 number:
-                                    '${numberFormat.format(data[secondIndex].leaveTaken)} / ${numberFormat.format(data[secondIndex].quota)}',
+                                    '${numberFormat.format(int.parse(data[firstIndex].leaveTaken))} / ${numberFormat.format(data[secondIndex].quota)}',
                               ),
                             ),
                         ],

@@ -24,7 +24,7 @@ mixin _$LeaveTakenAndQuotaModel {
   int get quota => throw _privateConstructorUsedError;
   int get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'leave_taken')
-  int get leaveTaken => throw _privateConstructorUsedError;
+  String get leaveTaken => throw _privateConstructorUsedError;
 
   /// Serializes this LeaveTakenAndQuotaModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $LeaveTakenAndQuotaModelCopyWith<$Res> {
       _$LeaveTakenAndQuotaModelCopyWithImpl<$Res, LeaveTakenAndQuotaModel>;
   @useResult
   $Res call(
-      {int quota, int type, @JsonKey(name: 'leave_taken') int leaveTaken});
+      {int quota, int type, @JsonKey(name: 'leave_taken') String leaveTaken});
 }
 
 /// @nodoc
@@ -78,7 +78,7 @@ class _$LeaveTakenAndQuotaModelCopyWithImpl<$Res,
       leaveTaken: null == leaveTaken
           ? _value.leaveTaken
           : leaveTaken // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ) as $Val);
   }
 }
@@ -93,7 +93,7 @@ abstract class _$$LeaveTakenAndQuotaModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int quota, int type, @JsonKey(name: 'leave_taken') int leaveTaken});
+      {int quota, int type, @JsonKey(name: 'leave_taken') String leaveTaken});
 }
 
 /// @nodoc
@@ -127,7 +127,7 @@ class __$$LeaveTakenAndQuotaModelImplCopyWithImpl<$Res>
       leaveTaken: null == leaveTaken
           ? _value.leaveTaken
           : leaveTaken // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -138,7 +138,7 @@ class _$LeaveTakenAndQuotaModelImpl implements _LeaveTakenAndQuotaModel {
   const _$LeaveTakenAndQuotaModelImpl(
       {required this.quota,
       required this.type,
-      @JsonKey(name: 'leave_taken') this.leaveTaken = 0});
+      @JsonKey(name: 'leave_taken') this.leaveTaken = "0"});
 
   factory _$LeaveTakenAndQuotaModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LeaveTakenAndQuotaModelImplFromJson(json);
@@ -149,7 +149,7 @@ class _$LeaveTakenAndQuotaModelImpl implements _LeaveTakenAndQuotaModel {
   final int type;
   @override
   @JsonKey(name: 'leave_taken')
-  final int leaveTaken;
+  final String leaveTaken;
 
   @override
   String toString() {
@@ -192,7 +192,7 @@ abstract class _LeaveTakenAndQuotaModel implements LeaveTakenAndQuotaModel {
   const factory _LeaveTakenAndQuotaModel(
           {required final int quota,
           required final int type,
-          @JsonKey(name: 'leave_taken') final int leaveTaken}) =
+          @JsonKey(name: 'leave_taken') final String leaveTaken}) =
       _$LeaveTakenAndQuotaModelImpl;
 
   factory _LeaveTakenAndQuotaModel.fromJson(Map<String, dynamic> json) =
@@ -204,7 +204,7 @@ abstract class _LeaveTakenAndQuotaModel implements LeaveTakenAndQuotaModel {
   int get type;
   @override
   @JsonKey(name: 'leave_taken')
-  int get leaveTaken;
+  String get leaveTaken;
 
   /// Create a copy of LeaveTakenAndQuotaModel
   /// with the given fields replaced by the non-null parameter values.

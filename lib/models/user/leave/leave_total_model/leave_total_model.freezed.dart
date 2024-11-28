@@ -20,7 +20,7 @@ LeaveTotalModel _$LeaveTotalModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LeaveTotalModel {
-  int get total => throw _privateConstructorUsedError;
+  String get total => throw _privateConstructorUsedError;
 
   /// Serializes this LeaveTotalModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $LeaveTotalModelCopyWith<$Res> {
           LeaveTotalModel value, $Res Function(LeaveTotalModel) then) =
       _$LeaveTotalModelCopyWithImpl<$Res, LeaveTotalModel>;
   @useResult
-  $Res call({int total});
+  $Res call({String total});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$LeaveTotalModelCopyWithImpl<$Res, $Val extends LeaveTotalModel>
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ) as $Val);
   }
 }
@@ -75,7 +75,7 @@ abstract class _$$LeaveTotalModelImplCopyWith<$Res>
       __$$LeaveTotalModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int total});
+  $Res call({String total});
 }
 
 /// @nodoc
@@ -97,7 +97,7 @@ class __$$LeaveTotalModelImplCopyWithImpl<$Res>
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -105,14 +105,14 @@ class __$$LeaveTotalModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LeaveTotalModelImpl extends _LeaveTotalModel {
-  _$LeaveTotalModelImpl({this.total = 0}) : super._();
+  _$LeaveTotalModelImpl({this.total = "0"}) : super._();
 
   factory _$LeaveTotalModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LeaveTotalModelImplFromJson(json);
 
   @override
   @JsonKey()
-  final int total;
+  final String total;
 
   @override
   String toString() {
@@ -149,14 +149,14 @@ class _$LeaveTotalModelImpl extends _LeaveTotalModel {
 }
 
 abstract class _LeaveTotalModel extends LeaveTotalModel {
-  factory _LeaveTotalModel({final int total}) = _$LeaveTotalModelImpl;
+  factory _LeaveTotalModel({final String total}) = _$LeaveTotalModelImpl;
   _LeaveTotalModel._() : super._();
 
   factory _LeaveTotalModel.fromJson(Map<String, dynamic> json) =
       _$LeaveTotalModelImpl.fromJson;
 
   @override
-  int get total;
+  String get total;
 
   /// Create a copy of LeaveTotalModel
   /// with the given fields replaced by the non-null parameter values.

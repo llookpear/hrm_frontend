@@ -22,7 +22,7 @@ class LeaveTotalModel with _$LeaveTotalModel {
   LeaveTotalModel._();
 
   factory LeaveTotalModel({
-    @Default(0)  int total,
+    @Default("0")  String total,
 
   }) = _LeaveTotalModel;
 

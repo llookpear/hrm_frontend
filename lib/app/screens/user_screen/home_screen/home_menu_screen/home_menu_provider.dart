@@ -45,8 +45,7 @@ class HomeProvider {
 
   Future<OvertimeModel> getOvertimeTotal() async {
     final jwtToken = Hive.box<StoreSystemData>(systemBox).getAt(0)!.accessToken;
-    var res =
-        await _homeRepository.overtimeTotal(jwtToken: jwtToken.toString());
+    var res = await _homeRepository.overtimeTotal(jwtToken: jwtToken.toString());
     return res.data!;
   }
 
@@ -63,8 +62,7 @@ final leaveTotalProvider =
   return await ref.read(homeProvider).getLeaveTotal();
 });
 
-final leaveQuotaProvider =
-    FutureProvider.autoDispose<LeaveQuotaModel>((ref) async {
+final leaveQuotaProvider = FutureProvider.autoDispose<LeaveQuotaModel>((ref) async {
   return await ref.read(homeProvider).getLeaveQuota();
 });
 
