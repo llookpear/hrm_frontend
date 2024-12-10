@@ -30,8 +30,7 @@ Future<List<calendar.Event>> fetchDayOffCalendarFromApi() async {
     var client = await getClient();
     var calendarApi = calendar.CalendarApi(client);
     /// เอามาจาก google calendar
-    var events = await calendarApi.events
-        .list('en.th.official#holiday@group.v.calendar.google.com');
+    var events = await calendarApi.events.list('en.th.official#holiday@group.v.calendar.google.com');
     var holidays = events.items?.toList() ?? [];
     var mapHolidays = holidays.map((event) {
       event.extendedProperties =
