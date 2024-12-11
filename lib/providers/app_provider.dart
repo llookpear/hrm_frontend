@@ -96,9 +96,9 @@ class AppProvider {
         _branch[0].lng);
   }
 
-  Future<void> locationListenerGPS(
-      BuildContext context, WidgetRef ref, Type typeOfCheck) async {
-    StreamSubscription<Position>? positionStream;
+  bool isDialogVisible = false;
+  StreamSubscription<Position>? positionStream;
+  Future<void> locationListenerGPS(BuildContext context, WidgetRef ref, Type typeOfCheck) async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -107,16 +107,22 @@ class AppProvider {
         permission != LocationPermission.always) {
       return;
     }
-    positionStream = Geolocator.getPositionStream(
+   if (positionStream != null) {
+     await positionStream?.cancel();
+     positionStream = null;
+   }
+
+
+   positionStream = Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.high,
         distanceFilter: 5,
       ),
     ).listen((Position position) async {
       double distanceInMeters =
-          checkLocationMeter(position.latitude, position.longitude);
+      checkLocationMeter(position.latitude, position.longitude);
       List<Placemark> placeMarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
+      await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placeMarks[0];
       String location =
           "${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}";
@@ -125,236 +131,625 @@ class AppProvider {
       TextEditingController tecDistance = TextEditingController();
       tecLocation.text = location;
       tecDistance.text = "${distanceInMeters.toStringAsFixed(2)} $meters";
-      if (distanceInMeters <= _branch[0].locationDistance) {
-        positionStream?.cancel();
-        await showDialog<void>(
-          context: context,
-          builder: (BuildContext context) {
-            DateTime currentTime = DateTime.now();
-            return AlertDialog(
-              backgroundColor: Colors.white,
-              insetPadding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.1,
-                vertical: MediaQuery.of(context).size.height * 0.3,
-              ),
-              content: Column(
-                children: [
-                  FontsStyle(
-                      size: 20,
-                      text: "Check ${typeOfCheck.name}",
-                      color: AppColor.darkGreyColor,
-                      weight: FontWeight.w600),
-                  const SizedBox(height: 8),
-                  FontsStyle(
-                    text: convert
-                        .convertDateddMMMMyyyy(DateTime.now().toString()),
-                    color: AppColor.primaryBlueColor,
-                    weight: FontWeight.normal,
-                  ),
-                  const SizedBox(height: 8),
-                  FontsStyle(
-                      text: DateFormat('hh:mm a').format(currentTime),
-                      color: AppColor.primarySuccessColor,
-                      weight: FontWeight.w500),
-                  const SizedBox(height: 8),
-                  InfoCardCanCheck(
-                    data: typeOfCheck.name.toLowerCase().toString(),
-                  ),
-                  // const Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.end,
-                  //   children: [
-                  //     Icon(
-                  //       FluentIcons.location_20_regular,
-                  //       color: AppColor.lightGreyColor,
-                  //     ),
-                  //     FontsStyle(
-                  //         text: 'Your location',
-                  //         color: AppColor.lightGreyColor,
-                  //         weight: FontWeight.w100),
-                  //   ],
-                  // ),
-                  // const SizedBox(height: 4),
-                  // TextFormFieldWidget(controller: tecLocation, readOnly: true),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                ],
-              ),
-              actions: <Widget>[
-                Row(
-                  children: [
-                    ElevatedButtonWidget(
-                      btColor: AppColor.cancelButtonColor,
-                      title: cancelButton,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    ElevatedButtonWidget(
-                      title: confirmButton,
-                      onPressed: () {
-                        /// fix ID
-                        checkInOut(
-                            Format.getCheckType(CheckType.GPS, typeOfCheck),
-                            position.latitude.toString(),
-                            position.longitude.toString(),
-                            "");
-                        Navigator.of(context).pop();
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            Future.delayed(const Duration(seconds: 1), () {
-                              Navigator.of(context).pop();
-                            });
-                            return AlertDialog(
-                              insetPadding: EdgeInsets.symmetric(
-                                horizontal:
-                                    MediaQuery.of(context).size.width * 0.1,
-                                vertical:
-                                    MediaQuery.of(context).size.height * 0.3,
-                              ),
-                              surfaceTintColor: Colors.white,
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  AppIcons.checkSquareStatusCore(),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  FontsStyle(
-                                      size: 16,
-                                      text: successMessage,
-                                      color: AppColor.darkGreyColor,
-                                      weight: FontWeight.w600),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  FontsStyle(
-                                      text:
-                                          "Check ${typeOfCheck.name} Successful",
-                                      color: AppColor.lightGreyColor,
-                                      weight: FontWeight.normal),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
+      if (!isDialogVisible) {
+        isDialogVisible = true;
+        if (distanceInMeters <= _branch[0].locationDistance) {
+          positionStream?.pause();
+          await showDialog<void>(
+            context: context,
+            builder: (BuildContext context) {
+              DateTime currentTime = DateTime.now();
+              return AlertDialog(
+                backgroundColor: Colors.white,
+                insetPadding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.1,
+                  vertical: MediaQuery.of(context).size.height * 0.3,
                 ),
-              ],
-            );
-          },
-        );
-      } else if (distanceInMeters > _branch[0].locationDistance) {
-        await showDialog<void>(
-          context: context,
-          builder: (BuildContext context) {
-            DateTime currentTime = DateTime.now();
-            return AlertDialog(
-              backgroundColor: Colors.white,
-              insetPadding: EdgeInsets.symmetric(
-                // horizontal: 30, vertical: 200
-                horizontal: MediaQuery.of(context).size.width * 0.1,
-                vertical: MediaQuery.of(context).size.height * 0.2,
-              ),
-              contentPadding: const EdgeInsets.all(24),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: FontsStyle(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FontsStyle(
                         size: 20,
                         text: "Check ${typeOfCheck.name}",
                         color: AppColor.darkGreyColor,
                         weight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 8),
-                  Center(
-                    child: FontsStyle(
+                    const SizedBox(height: 8),
+                    FontsStyle(
                       text: convert
                           .convertDateddMMMMyyyy(DateTime.now().toString()),
                       color: AppColor.primaryBlueColor,
                       weight: FontWeight.normal,
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          FluentIcons.clock_16_regular,
-                          color: AppColor.primarySuccessColor,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        FontsStyle(
-                            text: DateFormat('hh:mm a').format(currentTime),
-                            color: AppColor.primarySuccessColor,
-                            weight: FontWeight.w500),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  InfoCardWarningCheck(
-                    data: typeOfCheck.name.toLowerCase().toString(),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FontsStyle(
-                          text: yourDistance,
-                          color: AppColor.lightGreyColor,
-                          weight: FontWeight.w100),
-                    ],
-                  ),
-                  TextFormFieldWidget(controller: tecDistance, readOnly: true),
-                ],
-              ),
-              actions: <Widget>[
-                Row(
-                  children: [
-                    ElevatedButtonWidget(
-                      btColor: AppColor.cancelButtonColor,
-                      title: cancelButton,
-                      onPressed: () {
-                        positionStream?.cancel();
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    ElevatedButtonWidget(
-                      title: confirmButton,
-                      onPressed: () {
-                        positionStream?.cancel();
-                        checkInOut(
-                            Format.getCheckType(CheckType.GPS, typeOfCheck),
-                            position.latitude.toString(),
-                            position.longitude.toString(),
-                            "");
-                        Navigator.of(context).pop();
-                      },
+                    const SizedBox(height: 8),
+                    FontsStyle(
+                        text: DateFormat('hh:mm a').format(currentTime),
+                        color: AppColor.primarySuccessColor,
+                        weight: FontWeight.w500),
+                    const SizedBox(height: 8),
+                    InfoCardCanCheck(
+                      data: typeOfCheck.name.toLowerCase().toString(),
                     ),
                   ],
                 ),
-              ],
-            );
-          },
-        );
+                actions: <Widget>[
+                  Row(
+                    children: [
+                      ElevatedButtonWidget(
+                        btColor: AppColor.cancelButtonColor,
+                        title: cancelButton,
+                        onPressed: () {
+                          isDialogVisible = false;
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      const SizedBox(width: 20),
+                      ElevatedButtonWidget(
+                        title: confirmButton,
+                        onPressed: () {
+                          isDialogVisible = false;
+                          checkInOut(
+                            Format.getCheckType(CheckType.GPS, typeOfCheck),
+                            position.latitude.toString(),
+                            position.longitude.toString(),
+                            "",
+                          );
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          );
+          positionStream?.resume();
+        }
+        else if (distanceInMeters > _branch[0].locationDistance) {
+          positionStream?.pause();
+          await showDialog<void>(
+            context: context,
+            builder: (BuildContext context) {
+              DateTime currentTime = DateTime.now();
+              return AlertDialog(
+                backgroundColor: Colors.white,
+                insetPadding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.1,
+                  vertical: MediaQuery.of(context).size.height * 0.2,
+                ),
+                contentPadding: const EdgeInsets.all(24),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: FontsStyle(
+                          size: 20,
+                          text: "Check ${typeOfCheck.name}",
+                          color: AppColor.darkGreyColor,
+                          weight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    Center(
+                      child: FontsStyle(
+                        text: convert
+                            .convertDateddMMMMyyyy(DateTime.now().toString()),
+                        color: AppColor.primaryBlueColor,
+                        weight: FontWeight.normal,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            FluentIcons.clock_16_regular,
+                            color: AppColor.primarySuccessColor,
+                          ),
+                          const SizedBox(width: 5),
+                          FontsStyle(
+                              text: DateFormat('hh:mm a').format(currentTime),
+                              color: AppColor.primarySuccessColor,
+                              weight: FontWeight.w500),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    InfoCardWarningCheck(
+                      data: typeOfCheck.name.toLowerCase().toString(),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FontsStyle(
+                            text: yourDistance,
+                            color: AppColor.lightGreyColor,
+                            weight: FontWeight.w100),
+                      ],
+                    ),
+                    TextFormFieldWidget(controller: tecDistance, readOnly: true),
+                  ],
+                ),
+                actions: <Widget>[
+                  Row(
+                    children: [
+                      ElevatedButtonWidget(
+                        btColor: AppColor.cancelButtonColor,
+                        title: cancelButton,
+                        onPressed: () {
+                          isDialogVisible = false;
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      const SizedBox(width: 10),
+                      ElevatedButtonWidget(
+                        title: confirmButton,
+                        onPressed: () {
+                          isDialogVisible = false;
+                          checkInOut(
+                            Format.getCheckType(CheckType.GPS, typeOfCheck),
+                            position.latitude.toString(),
+                            position.longitude.toString(),
+                            "",
+                          );
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          );
+          positionStream?.resume();
+        }
       }
     });
   }
+
+  // Future<void> locationListenerGPS(BuildContext context, WidgetRef ref, Type typeOfCheck) async {
+  //   StreamSubscription<Position>? positionStream;
+  //   LocationPermission permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //   }
+  //   if (permission != LocationPermission.whileInUse &&
+  //       permission != LocationPermission.always) {
+  //     return;
+  //   }
+  //   positionStream = Geolocator.getPositionStream(
+  //     locationSettings: const LocationSettings(
+  //       accuracy: LocationAccuracy.high,
+  //       distanceFilter: 5,
+  //     ),
+  //   ).listen((Position position) async {
+  //     double distanceInMeters =
+  //         checkLocationMeter(position.latitude, position.longitude);
+  //     List<Placemark> placeMarks =
+  //         await placemarkFromCoordinates(position.latitude, position.longitude);
+  //     Placemark place = placeMarks[0];
+  //     String location =
+  //         "${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}";
+  //     ref.read(locationProvider.notifier).state = location;
+  //     TextEditingController tecLocation = TextEditingController();
+  //     TextEditingController tecDistance = TextEditingController();
+  //     tecLocation.text = location;
+  //     tecDistance.text = "${distanceInMeters.toStringAsFixed(2)} $meters";
+  //
+  //     // if (distanceInMeters <= _branch[0].locationDistance) {
+  //     //   positionStream?.cancel();
+  //     //   await showDialog<void>(
+  //     //     context: context,
+  //     //     builder: (BuildContext context) {
+  //     //       DateTime currentTime = DateTime.now();
+  //     //       return AlertDialog(
+  //     //         backgroundColor: Colors.white,
+  //     //         insetPadding: EdgeInsets.symmetric(
+  //     //           horizontal: MediaQuery.of(context).size.width * 0.1,
+  //     //           vertical: MediaQuery.of(context).size.height * 0.3,
+  //     //         ),
+  //     //         content: Column(
+  //     //           children: [
+  //     //             FontsStyle(
+  //     //                 size: 20,
+  //     //                 text: "Check ${typeOfCheck.name}",
+  //     //                 color: AppColor.darkGreyColor,
+  //     //                 weight: FontWeight.w600),
+  //     //             const SizedBox(height: 8),
+  //     //             FontsStyle(
+  //     //               text: convert
+  //     //                   .convertDateddMMMMyyyy(DateTime.now().toString()),
+  //     //               color: AppColor.primaryBlueColor,
+  //     //               weight: FontWeight.normal,
+  //     //             ),
+  //     //             const SizedBox(height: 8),
+  //     //             FontsStyle(
+  //     //                 text: DateFormat('hh:mm a').format(currentTime),
+  //     //                 color: AppColor.primarySuccessColor,
+  //     //                 weight: FontWeight.w500),
+  //     //             const SizedBox(height: 8),
+  //     //             InfoCardCanCheck(
+  //     //               data: typeOfCheck.name.toLowerCase().toString(),
+  //     //             ),
+  //     //             // const Row(
+  //     //             //   crossAxisAlignment: CrossAxisAlignment.end,
+  //     //             //   children: [
+  //     //             //     Icon(
+  //     //             //       FluentIcons.location_20_regular,
+  //     //             //       color: AppColor.lightGreyColor,
+  //     //             //     ),
+  //     //             //     FontsStyle(
+  //     //             //         text: 'Your location',
+  //     //             //         color: AppColor.lightGreyColor,
+  //     //             //         weight: FontWeight.w100),
+  //     //             //   ],
+  //     //             // ),
+  //     //             // const SizedBox(height: 4),
+  //     //             // TextFormFieldWidget(controller: tecLocation, readOnly: true),
+  //     //             // const SizedBox(
+  //     //             //   height: 10,
+  //     //             // ),
+  //     //           ],
+  //     //         ),
+  //     //         actions: <Widget>[
+  //     //           Row(
+  //     //             children: [
+  //     //               ElevatedButtonWidget(
+  //     //                 btColor: AppColor.cancelButtonColor,
+  //     //                 title: cancelButton,
+  //     //                 onPressed: () {
+  //     //                   Navigator.of(context).pop();
+  //     //                 },
+  //     //               ),
+  //     //               const SizedBox(
+  //     //                 width: 20,
+  //     //               ),
+  //     //               ElevatedButtonWidget(
+  //     //                 title: confirmButton,
+  //     //                 onPressed: () {
+  //     //                   /// fix ID
+  //     //                   checkInOut(
+  //     //                       Format.getCheckType(CheckType.GPS, typeOfCheck),
+  //     //                       position.latitude.toString(),
+  //     //                       position.longitude.toString(),
+  //     //                       "");
+  //     //                   Navigator.of(context).pop();
+  //     //                   showDialog<void>(
+  //     //                     context: context,
+  //     //                     barrierDismissible: false,
+  //     //                     builder: (BuildContext context) {
+  //     //                       Future.delayed(const Duration(seconds: 1), () {
+  //     //                         Navigator.of(context).pop();
+  //     //                       });
+  //     //                       return AlertDialog(
+  //     //                         insetPadding: EdgeInsets.symmetric(
+  //     //                           horizontal:
+  //     //                               MediaQuery.of(context).size.width * 0.1,
+  //     //                           vertical:
+  //     //                               MediaQuery.of(context).size.height * 0.3,
+  //     //                         ),
+  //     //                         surfaceTintColor: Colors.white,
+  //     //                         content: Column(
+  //     //                           crossAxisAlignment: CrossAxisAlignment.center,
+  //     //                           mainAxisAlignment: MainAxisAlignment.center,
+  //     //                           children: [
+  //     //                             AppIcons.checkSquareStatusCore(),
+  //     //                             const SizedBox(
+  //     //                               height: 20,
+  //     //                             ),
+  //     //                             FontsStyle(
+  //     //                                 size: 16,
+  //     //                                 text: successMessage,
+  //     //                                 color: AppColor.darkGreyColor,
+  //     //                                 weight: FontWeight.w600),
+  //     //                             const SizedBox(
+  //     //                               height: 10,
+  //     //                             ),
+  //     //                             FontsStyle(
+  //     //                                 text:
+  //     //                                     "Check ${typeOfCheck.name} Successful",
+  //     //                                 color: AppColor.lightGreyColor,
+  //     //                                 weight: FontWeight.normal),
+  //     //                           ],
+  //     //                         ),
+  //     //                       );
+  //     //                     },
+  //     //                   );
+  //     //                 },
+  //     //               ),
+  //     //             ],
+  //     //           ),
+  //     //         ],
+  //     //       );
+  //     //     },
+  //     //   );
+  //     // }
+  //     // else if (distanceInMeters > _branch[0].locationDistance) {
+  //     //   await showDialog<void>(
+  //     //     context: context,
+  //     //     builder: (BuildContext context) {
+  //     //       DateTime currentTime = DateTime.now();
+  //     //       return AlertDialog(
+  //     //         backgroundColor: Colors.white,
+  //     //         insetPadding: EdgeInsets.symmetric(
+  //     //           // horizontal: 30, vertical: 200
+  //     //           horizontal: MediaQuery.of(context).size.width * 0.1,
+  //     //           vertical: MediaQuery.of(context).size.height * 0.2,
+  //     //         ),
+  //     //         contentPadding: const EdgeInsets.all(24),
+  //     //         content: Column(
+  //     //           crossAxisAlignment: CrossAxisAlignment.start,
+  //     //           children: [
+  //     //             Center(
+  //     //               child: FontsStyle(
+  //     //                   size: 20,
+  //     //                   text: "Check ${typeOfCheck.name}",
+  //     //                   color: AppColor.darkGreyColor,
+  //     //                   weight: FontWeight.w600),
+  //     //             ),
+  //     //             const SizedBox(height: 8),
+  //     //             Center(
+  //     //               child: FontsStyle(
+  //     //                 text: convert
+  //     //                     .convertDateddMMMMyyyy(DateTime.now().toString()),
+  //     //                 color: AppColor.primaryBlueColor,
+  //     //                 weight: FontWeight.normal,
+  //     //               ),
+  //     //             ),
+  //     //             const SizedBox(height: 8),
+  //     //             Center(
+  //     //               child: Row(
+  //     //                 mainAxisAlignment: MainAxisAlignment.center,
+  //     //                 children: [
+  //     //                   const Icon(
+  //     //                     FluentIcons.clock_16_regular,
+  //     //                     color: AppColor.primarySuccessColor,
+  //     //                   ),
+  //     //                   const SizedBox(
+  //     //                     width: 5,
+  //     //                   ),
+  //     //                   FontsStyle(
+  //     //                       text: DateFormat('hh:mm a').format(currentTime),
+  //     //                       color: AppColor.primarySuccessColor,
+  //     //                       weight: FontWeight.w500),
+  //     //                 ],
+  //     //               ),
+  //     //             ),
+  //     //             const SizedBox(height: 8),
+  //     //             InfoCardWarningCheck(
+  //     //               data: typeOfCheck.name.toLowerCase().toString(),
+  //     //             ),
+  //     //             const SizedBox(height: 8),
+  //     //             Row(
+  //     //               crossAxisAlignment: CrossAxisAlignment.start,
+  //     //               children: [
+  //     //                 FontsStyle(
+  //     //                     text: yourDistance,
+  //     //                     color: AppColor.lightGreyColor,
+  //     //                     weight: FontWeight.w100),
+  //     //               ],
+  //     //             ),
+  //     //             TextFormFieldWidget(controller: tecDistance, readOnly: true),
+  //     //           ],
+  //     //         ),
+  //     //         actions: <Widget>[
+  //     //           Row(
+  //     //             children: [
+  //     //               ElevatedButtonWidget(
+  //     //                 btColor: AppColor.cancelButtonColor,
+  //     //                 title: cancelButton,
+  //     //                 onPressed: () {
+  //     //                   positionStream?.cancel();
+  //     //                   Navigator.of(context).pop();
+  //     //                 },
+  //     //               ),
+  //     //               const SizedBox(
+  //     //                 width: 10,
+  //     //               ),
+  //     //               ElevatedButtonWidget(
+  //     //                 title: confirmButton,
+  //     //                 onPressed: () {
+  //     //                   positionStream?.cancel();
+  //     //                   checkInOut(
+  //     //                       Format.getCheckType(CheckType.GPS, typeOfCheck),
+  //     //                       position.latitude.toString(),
+  //     //                       position.longitude.toString(),
+  //     //                       "");
+  //     //                   Navigator.of(context).pop();
+  //     //                 },
+  //     //               ),
+  //     //             ],
+  //     //           ),
+  //     //         ],
+  //     //       );
+  //     //     },
+  //     //   );
+  //     // }
+  //
+  //     if (distanceInMeters <= _branch[0].locationDistance) {
+  //       if (!isDialogVisible) {
+  //         print(1);
+  //         isDialogVisible = true;
+  //         positionStream?.cancel();
+  //         await showDialog<void>(
+  //           context: context,
+  //           builder: (BuildContext context) {
+  //             DateTime currentTime = DateTime.now();
+  //             return AlertDialog(
+  //               backgroundColor: Colors.white,
+  //               insetPadding: EdgeInsets.symmetric(
+  //                 horizontal: MediaQuery.of(context).size.width * 0.1,
+  //                 vertical: MediaQuery.of(context).size.height * 0.3,
+  //               ),
+  //               content: Column(
+  //                 children: [
+  //                   FontsStyle(
+  //                       size: 20,
+  //                       text: "Check ${typeOfCheck.name}",
+  //                       color: AppColor.darkGreyColor,
+  //                       weight: FontWeight.w600),
+  //                   const SizedBox(height: 8),
+  //                   FontsStyle(
+  //                     text: convert
+  //                         .convertDateddMMMMyyyy(DateTime.now().toString()),
+  //                     color: AppColor.primaryBlueColor,
+  //                     weight: FontWeight.normal,
+  //                   ),
+  //                   const SizedBox(height: 8),
+  //                   FontsStyle(
+  //                       text: DateFormat('hh:mm a').format(currentTime),
+  //                       color: AppColor.primarySuccessColor,
+  //                       weight: FontWeight.w500),
+  //                   const SizedBox(height: 8),
+  //                   InfoCardCanCheck(
+  //                     data: typeOfCheck.name.toLowerCase().toString(),
+  //                   ),
+  //                 ],
+  //               ),
+  //               actions: <Widget>[
+  //                 Row(
+  //                   children: [
+  //                     ElevatedButtonWidget(
+  //                       btColor: AppColor.cancelButtonColor,
+  //                       title: cancelButton,
+  //                       onPressed: () {
+  //                         isDialogVisible = false;
+  //                         Navigator.of(context).pop();
+  //
+  //                       },
+  //                     ),
+  //                     const SizedBox(width: 20),
+  //                     ElevatedButtonWidget(
+  //                       title: confirmButton,
+  //                       onPressed: () {
+  //                         isDialogVisible = false;
+  //                         checkInOut(
+  //                             Format.getCheckType(CheckType.GPS, typeOfCheck),
+  //                             position.latitude.toString(),
+  //                             position.longitude.toString(),
+  //                             "");
+  //                         Navigator.of(context).pop();
+  //                       },
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ],
+  //             );
+  //           },
+  //         );
+  //       }
+  //     }
+  //     else if (distanceInMeters > _branch[0].locationDistance) {
+  //       if (!isDialogVisible){
+  //         print(2);
+  //         isDialogVisible = true;
+  //         positionStream?.cancel();
+  //         await showDialog<void>(
+  //           context: context,
+  //           builder: (BuildContext context) {
+  //             DateTime currentTime = DateTime.now();
+  //             return AlertDialog(
+  //               backgroundColor: Colors.white,
+  //               insetPadding: EdgeInsets.symmetric(
+  //                 // horizontal: 30, vertical: 200
+  //                 horizontal: MediaQuery.of(context).size.width * 0.1,
+  //                 vertical: MediaQuery.of(context).size.height * 0.2,
+  //               ),
+  //               contentPadding: const EdgeInsets.all(24),
+  //               content: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Center(
+  //                     child: FontsStyle(
+  //                         size: 20,
+  //                         text: "Check ${typeOfCheck.name}",
+  //                         color: AppColor.darkGreyColor,
+  //                         weight: FontWeight.w600),
+  //                   ),
+  //                   const SizedBox(height: 8),
+  //                   Center(
+  //                     child: FontsStyle(
+  //                       text: convert
+  //                           .convertDateddMMMMyyyy(DateTime.now().toString()),
+  //                       color: AppColor.primaryBlueColor,
+  //                       weight: FontWeight.normal,
+  //                     ),
+  //                   ),
+  //                   const SizedBox(height: 8),
+  //                   Center(
+  //                     child: Row(
+  //                       mainAxisAlignment: MainAxisAlignment.center,
+  //                       children: [
+  //                         const Icon(
+  //                           FluentIcons.clock_16_regular,
+  //                           color: AppColor.primarySuccessColor,
+  //                         ),
+  //                         const SizedBox(
+  //                           width: 5,
+  //                         ),
+  //                         FontsStyle(
+  //                             text: DateFormat('hh:mm a').format(currentTime),
+  //                             color: AppColor.primarySuccessColor,
+  //                             weight: FontWeight.w500),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                   const SizedBox(height: 8),
+  //                   InfoCardWarningCheck(
+  //                     data: typeOfCheck.name.toLowerCase().toString(),
+  //                   ),
+  //                   const SizedBox(height: 8),
+  //                   Row(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       FontsStyle(
+  //                           text: yourDistance,
+  //                           color: AppColor.lightGreyColor,
+  //                           weight: FontWeight.w100),
+  //                     ],
+  //                   ),
+  //                   TextFormFieldWidget(controller: tecDistance, readOnly: true),
+  //                 ],
+  //               ),
+  //               actions: <Widget>[
+  //                 Row(
+  //                   children: [
+  //                     ElevatedButtonWidget(
+  //                       btColor: AppColor.cancelButtonColor,
+  //                       title: cancelButton,
+  //                       onPressed: () {
+  //                         positionStream?.cancel();
+  //                         Navigator.of(context).pop();
+  //                       },
+  //                     ),
+  //                     const SizedBox(
+  //                       width: 10,
+  //                     ),
+  //                     ElevatedButtonWidget(
+  //                       title: confirmButton,
+  //                       onPressed: () {
+  //                         positionStream?.cancel();
+  //                         checkInOut(
+  //                             Format.getCheckType(CheckType.GPS, typeOfCheck),
+  //                             position.latitude.toString(),
+  //                             position.longitude.toString(),
+  //                             "");
+  //                         Navigator.of(context).pop();
+  //                       },
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ],
+  //             );
+  //           },
+  //         );
+  //       }
+  //
+  //     }
+  //
+  //   });
+  // }
 
   Future<void> scanningBeacon(
       BuildContext context, WidgetRef ref, Type typeOfCheck) async {
