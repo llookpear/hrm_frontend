@@ -33,7 +33,7 @@ class AddminLeaveDetailScreen extends HookConsumerWidget {
     final formattedStartTime = convert.convertTime(item.startTime);
     final formattedEndTime = convert.convertTime(item.endTime);
     const String noImage = "-";
-
+    const String nameMessage = "Name";
     const String appBarTitle = "Leave Detail";
     const String leavetypeMessage = "Type of Leave";
     const String dateMessage = "Date";
@@ -78,6 +78,21 @@ class AddminLeaveDetailScreen extends HookConsumerWidget {
                   CardOutlineWidget(
                     title: leavetypeMessage,
                     detail: Format.leaveName(item.type),
+                  ),
+                  const SizedBox(height: 8),
+                  CardOutlineWidget(
+                    title: nameMessage,
+                    detail: "${item.title}. ${item.firstname} ${item.lastname}",
+                  ),
+                  const SizedBox(height: 8),
+                  CardOutlineWidget(
+                    title: "Position",
+                    detail: item.position,
+                  ),
+                  const SizedBox(height: 8),
+                  CardOutlineWidget(
+                    title: "Department",
+                    detail: item.department,
                   ),
                   const SizedBox(height: 8),
                   CardOutlineWidget(

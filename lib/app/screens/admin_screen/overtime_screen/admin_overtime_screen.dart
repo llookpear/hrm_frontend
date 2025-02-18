@@ -172,7 +172,7 @@ class _LeaveListViewState extends State<LeaveListView> {
                         },
                         bgColor: pbgColor,
                         fontColor: pfontColor,
-                        status: Format.statusName(data.statusID),
+                        status: Format.statusName(data.statusID), position: data.position, department: data.department,
                       );
                     },
                   ),

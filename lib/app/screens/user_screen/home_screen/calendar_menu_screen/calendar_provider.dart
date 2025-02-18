@@ -39,7 +39,7 @@ class CalendarProvider {
     if (jwtToken != null) {
       final res = await _contentRepository.leaveCalendar(jwtToken: jwtToken);
       if (res.isComplete) {
-        print(res.data);
+        // print(res.data);
         final List<dynamic> jsonData = res.data;
         return jsonData.map((json) => LeaveModel.fromJson(json)).toList();
       } else {

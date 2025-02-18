@@ -98,7 +98,7 @@ class AppProvider {
 
   bool isDialogVisible = false;
   StreamSubscription<Position>? positionStream;
-  Future<void> locationListenerGPS(BuildContext context, WidgetRef ref, Type typeOfCheck) async {
+  Future<void> locationListenerGPS( BuildContext context, WidgetRef ref, Type typeOfCheck) async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();

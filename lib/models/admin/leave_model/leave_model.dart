@@ -65,6 +65,8 @@ class LeaveModel with _$LeaveModel {
     required String title,
     required String firstname,
     required String lastname,
+    required String position,
+    required String department,
     required int type,
     @JsonKey(name: 'status_id') required int statusID,
     @Default('-')  String detail,

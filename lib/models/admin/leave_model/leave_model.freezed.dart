@@ -25,6 +25,8 @@ mixin _$LeaveModel {
   String get title => throw _privateConstructorUsedError;
   String get firstname => throw _privateConstructorUsedError;
   String get lastname => throw _privateConstructorUsedError;
+  String get position => throw _privateConstructorUsedError;
+  String get department => throw _privateConstructorUsedError;
   int get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'status_id')
   int get statusID => throw _privateConstructorUsedError;
@@ -63,6 +65,8 @@ abstract class $LeaveModelCopyWith<$Res> {
       String title,
       String firstname,
       String lastname,
+      String position,
+      String department,
       int type,
       @JsonKey(name: 'status_id') int statusID,
       String detail,
@@ -94,6 +98,8 @@ class _$LeaveModelCopyWithImpl<$Res, $Val extends LeaveModel>
     Object? title = null,
     Object? firstname = null,
     Object? lastname = null,
+    Object? position = null,
+    Object? department = null,
     Object? type = null,
     Object? statusID = null,
     Object? detail = null,
@@ -121,6 +127,14 @@ class _$LeaveModelCopyWithImpl<$Res, $Val extends LeaveModel>
       lastname: null == lastname
           ? _value.lastname
           : lastname // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as String,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -179,6 +193,8 @@ abstract class _$$LeaveModelImplCopyWith<$Res>
       String title,
       String firstname,
       String lastname,
+      String position,
+      String department,
       int type,
       @JsonKey(name: 'status_id') int statusID,
       String detail,
@@ -208,6 +224,8 @@ class __$$LeaveModelImplCopyWithImpl<$Res>
     Object? title = null,
     Object? firstname = null,
     Object? lastname = null,
+    Object? position = null,
+    Object? department = null,
     Object? type = null,
     Object? statusID = null,
     Object? detail = null,
@@ -235,6 +253,14 @@ class __$$LeaveModelImplCopyWithImpl<$Res>
       lastname: null == lastname
           ? _value.lastname
           : lastname // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as String,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -288,6 +314,8 @@ class _$LeaveModelImpl implements _LeaveModel {
       required this.title,
       required this.firstname,
       required this.lastname,
+      required this.position,
+      required this.department,
       required this.type,
       @JsonKey(name: 'status_id') required this.statusID,
       this.detail = '-',
@@ -311,6 +339,10 @@ class _$LeaveModelImpl implements _LeaveModel {
   final String firstname;
   @override
   final String lastname;
+  @override
+  final String position;
+  @override
+  final String department;
   @override
   final int type;
   @override
@@ -342,7 +374,7 @@ class _$LeaveModelImpl implements _LeaveModel {
 
   @override
   String toString() {
-    return 'LeaveModel(leaveID: $leaveID, title: $title, firstname: $firstname, lastname: $lastname, type: $type, statusID: $statusID, detail: $detail, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, total: $total, file: $file, approvedBY: $approvedBY)';
+    return 'LeaveModel(leaveID: $leaveID, title: $title, firstname: $firstname, lastname: $lastname, position: $position, department: $department, type: $type, statusID: $statusID, detail: $detail, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, total: $total, file: $file, approvedBY: $approvedBY)';
   }
 
   @override
@@ -356,6 +388,10 @@ class _$LeaveModelImpl implements _LeaveModel {
                 other.firstname == firstname) &&
             (identical(other.lastname, lastname) ||
                 other.lastname == lastname) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
+            (identical(other.department, department) ||
+                other.department == department) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.statusID, statusID) ||
                 other.statusID == statusID) &&
@@ -380,6 +416,8 @@ class _$LeaveModelImpl implements _LeaveModel {
       title,
       firstname,
       lastname,
+      position,
+      department,
       type,
       statusID,
       detail,
@@ -413,6 +451,8 @@ abstract class _LeaveModel implements LeaveModel {
           required final String title,
           required final String firstname,
           required final String lastname,
+          required final String position,
+          required final String department,
           required final int type,
           @JsonKey(name: 'status_id') required final int statusID,
           final String detail,
@@ -437,6 +477,10 @@ abstract class _LeaveModel implements LeaveModel {
   String get firstname;
   @override
   String get lastname;
+  @override
+  String get position;
+  @override
+  String get department;
   @override
   int get type;
   @override

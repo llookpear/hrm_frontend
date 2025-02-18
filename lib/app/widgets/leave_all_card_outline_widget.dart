@@ -12,6 +12,8 @@ class LeaveAllCardOutlineWidget extends StatelessWidget {
   final String title;
   final String firstname;
   final String lastname;
+  final String position;
+  final String department;
   final String type;
   final Color bgColor;
   final Color fontColor;
@@ -26,6 +28,8 @@ class LeaveAllCardOutlineWidget extends StatelessWidget {
     required this.title,
     required this.firstname,
     required this.lastname,
+    required this.position,
+    required this.department,
     required this.type,
     required this.onPressed,
     required this.bgColor,
@@ -103,6 +107,18 @@ class LeaveAllCardOutlineWidget extends StatelessWidget {
                               size: 14,
                             ),
                           ],
+                        ),
+                        FontsStyle(
+                          text: position,
+                          color: AppColor.lightGreyColor,
+                          weight: FontWeight.w500,
+                          size: 14,
+                        ),
+                        FontsStyle(
+                          text: department,
+                          color: AppColor.lightGreyColor,
+                          weight: FontWeight.w500,
+                          size: 14,
                         ),
                       ],
                     ),

@@ -25,6 +25,8 @@ mixin _$OvertimeModel {
   String get title => throw _privateConstructorUsedError;
   String get firstname => throw _privateConstructorUsedError;
   String get lastname => throw _privateConstructorUsedError;
+  String get position => throw _privateConstructorUsedError;
+  String get department => throw _privateConstructorUsedError;
   @JsonKey(name: 'status_id')
   int get statusID => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
@@ -57,6 +59,8 @@ abstract class $OvertimeModelCopyWith<$Res> {
       String title,
       String firstname,
       String lastname,
+      String position,
+      String department,
       @JsonKey(name: 'status_id') int statusID,
       String date,
       @JsonKey(name: 'start_time') String startTime,
@@ -84,6 +88,8 @@ class _$OvertimeModelCopyWithImpl<$Res, $Val extends OvertimeModel>
     Object? title = null,
     Object? firstname = null,
     Object? lastname = null,
+    Object? position = null,
+    Object? department = null,
     Object? statusID = null,
     Object? date = null,
     Object? startTime = null,
@@ -107,6 +113,14 @@ class _$OvertimeModelCopyWithImpl<$Res, $Val extends OvertimeModel>
       lastname: null == lastname
           ? _value.lastname
           : lastname // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as String,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
               as String,
       statusID: null == statusID
           ? _value.statusID
@@ -149,6 +163,8 @@ abstract class _$$OvertimeModelImplCopyWith<$Res>
       String title,
       String firstname,
       String lastname,
+      String position,
+      String department,
       @JsonKey(name: 'status_id') int statusID,
       String date,
       @JsonKey(name: 'start_time') String startTime,
@@ -174,6 +190,8 @@ class __$$OvertimeModelImplCopyWithImpl<$Res>
     Object? title = null,
     Object? firstname = null,
     Object? lastname = null,
+    Object? position = null,
+    Object? department = null,
     Object? statusID = null,
     Object? date = null,
     Object? startTime = null,
@@ -197,6 +215,14 @@ class __$$OvertimeModelImplCopyWithImpl<$Res>
       lastname: null == lastname
           ? _value.lastname
           : lastname // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as String,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
               as String,
       statusID: null == statusID
           ? _value.statusID
@@ -234,6 +260,8 @@ class _$OvertimeModelImpl implements _OvertimeModel {
       required this.title,
       required this.firstname,
       required this.lastname,
+      required this.position,
+      required this.department,
       @JsonKey(name: 'status_id') required this.statusID,
       required this.date,
       @JsonKey(name: 'start_time') required this.startTime,
@@ -254,6 +282,10 @@ class _$OvertimeModelImpl implements _OvertimeModel {
   @override
   final String lastname;
   @override
+  final String position;
+  @override
+  final String department;
+  @override
   @JsonKey(name: 'status_id')
   final int statusID;
   @override
@@ -273,7 +305,7 @@ class _$OvertimeModelImpl implements _OvertimeModel {
 
   @override
   String toString() {
-    return 'OvertimeModel(otID: $otID, title: $title, firstname: $firstname, lastname: $lastname, statusID: $statusID, date: $date, startTime: $startTime, endTime: $endTime, detail: $detail, approvedBY: $approvedBY)';
+    return 'OvertimeModel(otID: $otID, title: $title, firstname: $firstname, lastname: $lastname, position: $position, department: $department, statusID: $statusID, date: $date, startTime: $startTime, endTime: $endTime, detail: $detail, approvedBY: $approvedBY)';
   }
 
   @override
@@ -287,6 +319,10 @@ class _$OvertimeModelImpl implements _OvertimeModel {
                 other.firstname == firstname) &&
             (identical(other.lastname, lastname) ||
                 other.lastname == lastname) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
+            (identical(other.department, department) ||
+                other.department == department) &&
             (identical(other.statusID, statusID) ||
                 other.statusID == statusID) &&
             (identical(other.date, date) || other.date == date) &&
@@ -300,8 +336,20 @@ class _$OvertimeModelImpl implements _OvertimeModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, otID, title, firstname, lastname,
-      statusID, date, startTime, endTime, detail, approvedBY);
+  int get hashCode => Object.hash(
+      runtimeType,
+      otID,
+      title,
+      firstname,
+      lastname,
+      position,
+      department,
+      statusID,
+      date,
+      startTime,
+      endTime,
+      detail,
+      approvedBY);
 
   /// Create a copy of OvertimeModel
   /// with the given fields replaced by the non-null parameter values.
@@ -325,6 +373,8 @@ abstract class _OvertimeModel implements OvertimeModel {
           required final String title,
           required final String firstname,
           required final String lastname,
+          required final String position,
+          required final String department,
           @JsonKey(name: 'status_id') required final int statusID,
           required final String date,
           @JsonKey(name: 'start_time') required final String startTime,
@@ -345,6 +395,10 @@ abstract class _OvertimeModel implements OvertimeModel {
   String get firstname;
   @override
   String get lastname;
+  @override
+  String get position;
+  @override
+  String get department;
   @override
   @JsonKey(name: 'status_id')
   int get statusID;

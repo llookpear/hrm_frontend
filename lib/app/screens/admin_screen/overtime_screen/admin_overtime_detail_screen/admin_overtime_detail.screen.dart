@@ -55,6 +55,16 @@ class AddminOvertimeDetailScreen extends HookConsumerWidget {
               ),
               const SizedBox(height: 8),
               CardOutlineWidget(
+                title: "Position",
+                detail: item.position,
+              ),
+              const SizedBox(height: 8),
+              CardOutlineWidget(
+                title: "Department",
+                detail:item.department,
+              ),
+              const SizedBox(height: 8),
+              CardOutlineWidget(
                 title: timeMessage,
                 detail: "$formattedStartTime - $formattedEndTime",
               ),

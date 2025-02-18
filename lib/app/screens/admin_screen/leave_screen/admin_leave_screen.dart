@@ -44,7 +44,8 @@ class AllLeave extends HookConsumerWidget {
       );
     }
 
-    final List<String> tabNames = leaveList.map((leave) => Format.leaveName(leave.type)).toSet().toList();
+    final List<String> tabNames =
+        leaveList.map((leave) => Format.leaveName(leave.type)).toSet().toList();
 
     // print(tabNames);
 
@@ -71,20 +72,19 @@ class AllLeave extends HookConsumerWidget {
         title: const Row(
           children: [
             FontsStyle(
-                text: appBarTitle,
-                color: AppColor.darkGreyColor,
-                weight: FontWeight.w600,
+              text: appBarTitle,
+              color: AppColor.darkGreyColor,
+              weight: FontWeight.w600,
             ),
           ],
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(
-              AppBar().preferredSize.height+30),
+          preferredSize: Size.fromHeight(AppBar().preferredSize.height + 30),
           child: Column(
             children: [
               Container(
                 height: 50,
-                padding:  EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.05,
                   vertical: MediaQuery.of(context).size.height * 0.003,
                 ),
@@ -182,8 +182,10 @@ class _LeaveListViewState extends State<LeaveListView> {
               itemCount: filteredLeaves.length,
               itemBuilder: (context, index) {
                 final leaveData = filteredLeaves[index];
-                final ptypeColor = getColorForLeaveType(Format.leaveName(leaveData.type));
-                String formattedDate = convert.convertDateEeDdMmm(leaveData.startDate);
+                final ptypeColor =
+                    getColorForLeaveType(Format.leaveName(leaveData.type));
+                String formattedDate =
+                    convert.convertDateEeDdMmm(leaveData.startDate);
                 StatusColor statusColors = StatusColor.getColors(
                     Format.statusName(leaveData.statusID));
                 return LeaveAllCardOutlineWidget(
@@ -206,6 +208,8 @@ class _LeaveListViewState extends State<LeaveListView> {
                   lastname: leaveData.lastname,
                   type: Format.leaveName(leaveData.type),
                   typeColor: ptypeColor,
+                  position: leaveData.position,
+                  department: leaveData.department,
                 );
               },
             ),

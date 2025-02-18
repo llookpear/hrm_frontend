@@ -53,6 +53,8 @@ class OvertimeModel with _$OvertimeModel {
     required String title,
     required String firstname,
     required String lastname,
+    required String position,
+    required String department,
     @JsonKey(name: 'status_id') required int statusID,
     required String date,
     @JsonKey(name: 'start_time') required String startTime,
