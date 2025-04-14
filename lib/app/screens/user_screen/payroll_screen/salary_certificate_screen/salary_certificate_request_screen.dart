@@ -17,7 +17,7 @@ class SalaryCertificateRequestScreenWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dateController = TextEditingController(text: "");
     final date = TextEditingController(text: "");
-    const String appBarTitle = "Certificate Request";
+    const String appBarTitle = "Certificate Request ";
     const String dateTitleTextForm = "Date";
     const String saveButton = 'Save';
     final keyForm = useMemoized(GlobalKey<FormState>.new);
