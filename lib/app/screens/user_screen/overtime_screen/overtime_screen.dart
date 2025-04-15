@@ -27,7 +27,7 @@ class OvertimeScreenWidget extends HookConsumerWidget {
     ConvertDateTime convert = ConvertDateTime();
     const String appBarTitle = 'Overtime';
     const String text = 'Status of overtime requests created in current year';
-    const String nameOfID = 'OT : ';
+    const String nameOfID = 'OT :';
     final overtimeProvider = ref.watch(overtimeHistoryProvider);
 
     final select = StateProvider<SortBy>((ref) => SortBy.ID);
