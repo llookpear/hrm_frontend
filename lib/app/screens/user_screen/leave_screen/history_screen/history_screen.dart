@@ -18,7 +18,7 @@ class HistoryScreenWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const String title = 'Leave ID : ';
+    const String title = 'Leave ID :';
     const String appBarTitle = 'History ';
     const String text = "Status of leave requests created in the current year";
     ConvertDateTime convert = ConvertDateTime();
