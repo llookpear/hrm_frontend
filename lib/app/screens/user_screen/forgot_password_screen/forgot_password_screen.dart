@@ -103,7 +103,7 @@ class MyStatelessWidget extends HookConsumerWidget {
                           child: Row(
                             children: [
                               ElevatedButtonWidget(
-                                title: 'Reset password',
+                                title: 'Reset Password',
                                 onPressed: () {
                                   Navigator.push(
                                     context,
