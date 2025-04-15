@@ -24,6 +24,7 @@ class EditPasswordScreenWidget extends HookConsumerWidget {
     const String warningInputPassword = "Please enter your password completely";
 
     final formKey = GlobalKey<FormState>();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColor.backgroundColor,
@@ -76,7 +77,6 @@ class EditPasswordScreenWidget extends HookConsumerWidget {
                 //   }
                 //   return null;
                 // },
-
                 key: formKey,
                 child: PasswordTextFormFiedWidget(
                     showObscureText: true,

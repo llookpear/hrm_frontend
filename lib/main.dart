@@ -6,6 +6,7 @@ import 'package:hrm_project/routing/router.dart';
 import 'package:hrm_project/utils/style/app_color.dart';
 import 'environment.dart';
 
+
 Future<void> main() async {
   await Environment.setup();
   ///debugPaintSizeEnabled = true;

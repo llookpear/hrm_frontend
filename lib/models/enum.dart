@@ -34,6 +34,5 @@ enum LeaveType {
   LeaveEtc('Leave Etc');
 
   final String name;
-
   const LeaveType(this.name);
 }

@@ -55,6 +55,7 @@ class LeaveRequestScreenWidget extends HookConsumerWidget {
     final pickedFile = useState<PlatformFile?>(null);
 
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
     const String appBarTitle = "Leave Request";
     const String typeTitleTextForm = "Type Of Leave";
     const String startDateTitleTextForm = "Start Date";
@@ -127,7 +128,7 @@ class LeaveRequestScreenWidget extends HookConsumerWidget {
                         }).toList(),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Please Enter Type Of Leave";
+                            return "Please Enter Type of leave";
                           }
                           return null;
                         },
@@ -181,8 +182,7 @@ class LeaveRequestScreenWidget extends HookConsumerWidget {
                                       DateFormat('yyyy-MM-dd').format(
                                           selectedDate);
                                   showStartDateController.text =
-                                      DateFormat('dd MMMM yyyy').format(
-                                          selectedDate);
+                                      DateFormat('dd MMMM yyyy').format(selectedDate);
                                 } else {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBarFailedWidget(

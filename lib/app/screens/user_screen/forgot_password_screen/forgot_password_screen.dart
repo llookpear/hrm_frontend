@@ -88,7 +88,7 @@ class MyStatelessWidget extends HookConsumerWidget {
                         const Padding(
                           padding: EdgeInsets.only(top: 20),
                           child: FontsStyle(
-                            text: 'Your Email',
+                            text: 'Your email',
                             color:AppColor.darkGreyColor,
                             weight: FontWeight.w600,
                             size: 12,

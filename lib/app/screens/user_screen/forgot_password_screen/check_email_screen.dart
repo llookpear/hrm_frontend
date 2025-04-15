@@ -31,7 +31,7 @@ class CheckEmailScreen extends HookConsumerWidget {
     return const Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Text("check email ไม่เทสอะไรเลย"),
+        child: Text("Check email test"),
       ),
     );
   }
