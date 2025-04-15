@@ -19,6 +19,8 @@ final contentRepositoryProvider = Provider<ContentRepository>((ref) {
 });
 
 class ContentRepository extends BaseRepository {
+
+
   Future<APIResponse<List<LeaveTypeModel>>> msLeave() async {
     try {
       final res = await dio.get<List>(apiLeaveType);

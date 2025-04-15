@@ -9,6 +9,7 @@ import '../../../../widgets/appbar_widget.dart';
 import '../../../../widgets/dialog_widget.dart';
 import '../../../../widgets/fonts_style_widget.dart';
 
+//////test
 class SalaryCertificateRequestScreenWidget extends HookConsumerWidget {
   const SalaryCertificateRequestScreenWidget({super.key});
 
@@ -16,7 +17,7 @@ class SalaryCertificateRequestScreenWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dateController = TextEditingController(text: "");
     final date = TextEditingController(text: "");
-    const String appBarTitle = "Certificate Request";
+    const String appBarTitle = "Certificate Request ";
     const String dateTitleTextForm = "Date";
     const String saveButton = 'Save';
     final keyForm = useMemoized(GlobalKey<FormState>.new);
@@ -81,6 +82,8 @@ class SalaryCertificateRequestScreenWidget extends HookConsumerWidget {
                             date.text = DateFormat('dd MMMM yyyy').format(selectedDate);
                             dateController.text = selectedDate.toString();
                           }
+
+
                           // else {
                           //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           //       elevation: 0,
